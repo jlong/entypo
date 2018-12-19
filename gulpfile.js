@@ -120,21 +120,22 @@ gulp.task('javascript', ['clean-javascript', 'optimize'], function() {
 
 gulp.task('preview-svg', ['javascript'], function(done) {
   var EntypoIcons = require(config.bundle)
+  var size = 20
   var svg = []
   var row = 1
   var col = 1
   var maxCol = 41
   var icons = _.sortBy(EntypoIcons.all(), 'name')
   icons.forEach(function(icon) {
-    svg.push('<g id="Icons/Entypo/' + icon.name + '" transform="translate(' + 24 * col + ', ' + 24 * row + ')"><g transform="scale(0.024)"><rect x="0" y="0" width="24" height="24" fill="#e5e5e5" />' + icon.paths + '</g></g>')
+    svg.push('<g id="Icons/Entypo/' + icon.name + '" transform="translate(' + size * col + ', ' + size * row + ')"><rect x="0" y="0" width="' + size + '" height="' + size + '" fill="#e5e5e5" /><g transform="scale(0.0' + size + ')">' + icon.paths + '</g></g>')
     col += 2
     if (col >= maxCol) {
       row += 2
       col = 1
     }
   })
-  var width = 24 * maxCol
-  var height = 24 * (row + 2)
+  var width = size * maxCol
+  var height = size * (row + 2)
   svg.unshift('<rect x="0" y="0" width="' + width + '" height="' + height + '" fill="#f5f5f5" />')
   svg.unshift('<svg width="' + width + '" height="' + height + '" viewBox="0 0 ' + width + ' ' + height +'" xmlns="http://www.w3.org/2000/svg">')
   svg.push('</svg>')
